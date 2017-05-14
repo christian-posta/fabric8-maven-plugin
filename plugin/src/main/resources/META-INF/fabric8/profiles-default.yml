@@ -105,3 +105,61 @@
   enricher:
     excludes:
       - f8-expose
+
+# Unforunately, need to copy/paste entire default profile until we can
+# extend profiles: https://github.com/fabric8io/fabric8-maven-plugin/issues/886
+- name: istio-proxy
+  enricher:
+    # The order given in "includes" is the order in which enrichers are called
+    includes:
+    - fmp-name
+    - fmp-controller
+    - fmp-service
+    - fmp-image
+    - fmp-portname
+    - fmp-ianaservice
+    - fmp-project
+    - fmp-dependency
+    - fmp-pod-annotations
+    - fmp-git
+    # TODO: Documents and verify enrichers below
+    - fmp-openshift-s2i
+    - fmp-debug
+    - fmp-merge
+    - fmp-remove-build-annotations
+    - fmp-volume-permission
+    # -----------------------------------------
+    - f8-cd
+    - f8-cd-doc-link
+    - f8-cd-grafana-link
+    - f8-icon
+    # TODO: Document and verify enrichers below
+    - f8-expose
+    # Health checks
+    - fmp-openshift-route
+    - spring-boot-health-check
+    - wildfly-swarm-health-check
+    - karaf-health-check
+    - vertx-health-check
+    - docker-health-check
+    - f8-prometheus
+    - f8-maven-scm
+    - f8-maven-issue-mgmt
+    # Add the side car proxy
+    - f8-istio-proxy
+    # Dependencies shouldn't be enriched anymore, therefor it's last in the list
+    - fmp-dependency
+
+  generator:
+    # The order given in "includes" is the order in which generators are called
+    includes:
+    - spring-boot
+    - wildfly-swarm
+    - karaf
+    - vertx
+    - java-exec
+    - webapp
+  watcher:
+    includes:
+    - spring-boot
+    - docker-image
